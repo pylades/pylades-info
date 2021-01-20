@@ -1412,6 +1412,11 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.4.2.tgz#7c6dc4ecef16149fd7a736710baa1b811017fdca"
   integrity sha512-JlGTGRYHC2QK+DDbePyXdBdooxFq2+noLfWpRqJtkxcb/oYWzOF0kcbfvvbWrwevCC1l6hLUg1wHYT+ona5BWQ==
 
+"@pyladesprotocol/token-lists@^1.0.0":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@pyladesprotocol/token-lists/-/token-lists-1.0.2.tgz#67691f9393a3d1194281c0a7001176ad25b2a680"
+  integrity sha512-TEQrhw95hJ8py0QrTvdrnWyDZreKpNF7Uce0ZJiQbtG+p1lax86m7oOTrSdi5bGDL8XPU7MtNK4HfMuZokSrCA==
+
 "@reach/portal@^0.10.3":
   version "0.10.3"
   resolved "https://registry.yarnpkg.com/@reach/portal/-/portal-0.10.3.tgz#2eb408cc246d3eabbbf3b47ca4dc9c381cdb1d88"
@@ -1992,11 +1997,6 @@
   dependencies:
     "@typescript-eslint/types" "4.4.0"
     eslint-visitor-keys "^2.0.0"
-
-"@uniswap/token-lists@^1.0.0-beta.15":
-  version "1.0.0-beta.15"
-  resolved "https://registry.yarnpkg.com/@uniswap/token-lists/-/token-lists-1.0.0-beta.15.tgz#93d2e9b2b2d2cfb0ce7fb4d30fffb685efde4256"
-  integrity sha512-cxubml6fPCjPPr8tWnA3IQkYbTocsZTJWac2C5WRXoHiSd7O4xjuBISdGLT9dW7IojKYpMXnCPJS8kAwqqYXDQ==
 
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
