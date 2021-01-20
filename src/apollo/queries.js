@@ -3,7 +3,7 @@ import { FACTORY_ADDRESS, BUNDLE_ID } from '../constants'
 
 export const SUBGRAPH_HEALTH = gql`
   query health {
-    indexingStatusForCurrentVersion(subgraphName: "uniswap/uniswap-v2") {
+    indexingStatusForCurrentVersion(subgraphName: "pylades/pylades") {
       synced
       health
       chains {
@@ -19,18 +19,18 @@ export const SUBGRAPH_HEALTH = gql`
 `
 
 export const V1_DATA_QUERY = gql`
-  query uniswap($date: Int!, $date2: Int!) {
-    current: uniswap(id: "1") {
+  query pylades($date: Int!, $date2: Int!) {
+    current: pylades(id: "1") {
       totalVolumeUSD
       totalLiquidityUSD
       txCount
     }
-    oneDay: uniswapHistoricalDatas(where: { timestamp_lt: $date }, first: 1, orderBy: timestamp, orderDirection: desc) {
+    oneDay: pyladesHistoricalDatas(where: { timestamp_lt: $date }, first: 1, orderBy: timestamp, orderDirection: desc) {
       totalVolumeUSD
       totalLiquidityUSD
       txCount
     }
-    twoDay: uniswapHistoricalDatas(
+    twoDay: pyladesHistoricalDatas(
       where: { timestamp_lt: $date2 }
       first: 1
       orderBy: timestamp
@@ -420,8 +420,8 @@ export const PAIR_DAY_DATA_BULK = (pairs, startTimestamp) => {
 }
 
 export const GLOBAL_CHART = gql`
-  query uniswapDayDatas($startTime: Int!, $skip: Int!) {
-    uniswapDayDatas(first: 1000, skip: $skip, where: { date_gt: $startTime }, orderBy: date, orderDirection: asc) {
+  query pyladesDayDatas($startTime: Int!, $skip: Int!) {
+    pyladesDayDatas(first: 1000, skip: $skip, where: { date_gt: $startTime }, orderBy: date, orderDirection: asc) {
       id
       date
       totalVolumeUSD
@@ -434,8 +434,8 @@ export const GLOBAL_CHART = gql`
 `
 
 export const GLOBAL_DATA = (block) => {
-  const queryString = ` query uniswapFactories {
-      uniswapFactories(
+  const queryString = ` query pyladesFactories {
+      pyladesFactories(
        ${block ? `block: { number: ${block}}` : ``} 
        where: { id: "${FACTORY_ADDRESS}" }) {
         id

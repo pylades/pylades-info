@@ -621,7 +621,7 @@ export function usePairChartData(pairAddress) {
 }
 
 /**
- * Get list of all pairs in Uniswap
+ * Get list of all pairs in Pylades
  */
 export function useAllPairData() {
   const [state] = usePairDataContext()

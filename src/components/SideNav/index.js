@@ -164,17 +164,17 @@ function SideNav({ history }) {
           </AutoColumn>
           <AutoColumn gap="0.5rem" style={{ marginLeft: '.75rem', marginBottom: '4rem' }}>
             <HeaderText>
-              <Link href="https://uniswap.org" target="_blank">
-                Uniswap.org
+              <Link href="https://pylades.finance" target="_blank">
+                pylades.finance
               </Link>
             </HeaderText>
             <HeaderText>
-              <Link href="https://v1.uniswap.info" target="_blank">
-                V1 Analytics
+              <Link href="https://pylades.info" target="_blank">
+                Analytics
               </Link>
             </HeaderText>
             <HeaderText>
-              <Link href="https://uniswap.org/docs/v2" target="_blank">
+              <Link href="https://pylades.finance/docs/v2" target="_blank">
                 Docs
               </Link>
             </HeaderText>
@@ -184,7 +184,7 @@ function SideNav({ history }) {
               </Link>
             </HeaderText>
             <HeaderText>
-              <Link href="https://twitter.com/UniswapProtocol" target="_blank">
+              <Link href="https://twitter.com/PyladesProtocol" target="_blank">
                 Twitter
               </Link>
             </HeaderText>

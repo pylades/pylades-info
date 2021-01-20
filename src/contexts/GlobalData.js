@@ -26,8 +26,8 @@ const UPDATE_TXNS = 'UPDATE_TXNS'
 const UPDATE_CHART = 'UPDATE_CHART'
 const UPDATE_ETH_PRICE = 'UPDATE_ETH_PRICE'
 const ETH_PRICE_KEY = 'ETH_PRICE_KEY'
-const UPDATE_ALL_PAIRS_IN_UNISWAP = 'UPDAUPDATE_ALL_PAIRS_IN_UNISWAPTE_TOP_PAIRS'
-const UPDATE_ALL_TOKENS_IN_UNISWAP = 'UPDATE_ALL_TOKENS_IN_UNISWAP'
+const UPDATE_ALL_PAIRS_IN_PYLADES = 'UPDAUPDATE_ALL_PAIRS_IN_PYLADESTE_TOP_PAIRS'
+const UPDATE_ALL_TOKENS_IN_PYLADES = 'UPDATE_ALL_TOKENS_IN_PYLADES'
 const UPDATE_TOP_LPS = 'UPDATE_TOP_LPS'
 
 // format dayjs with the libraries that we need
@@ -75,7 +75,7 @@ function reducer(state, { type, payload }) {
       }
     }
 
-    case UPDATE_ALL_PAIRS_IN_UNISWAP: {
+    case UPDATE_ALL_PAIRS_IN_PYLADES: {
       const { allPairs } = payload
       return {
         ...state,
@@ -83,7 +83,7 @@ function reducer(state, { type, payload }) {
       }
     }
 
-    case UPDATE_ALL_TOKENS_IN_UNISWAP: {
+    case UPDATE_ALL_TOKENS_IN_PYLADES: {
       const { allTokens } = payload
       return {
         ...state,
@@ -145,18 +145,18 @@ export default function Provider({ children }) {
     })
   }, [])
 
-  const updateAllPairsInUniswap = useCallback((allPairs) => {
+  const updateAllPairsInPylades = useCallback((allPairs) => {
     dispatch({
-      type: UPDATE_ALL_PAIRS_IN_UNISWAP,
+      type: UPDATE_ALL_PAIRS_IN_PYLADES,
       payload: {
         allPairs,
       },
     })
   }, [])
 
-  const updateAllTokensInUniswap = useCallback((allTokens) => {
+  const updateAllTokensInPylades = useCallback((allTokens) => {
     dispatch({
-      type: UPDATE_ALL_TOKENS_IN_UNISWAP,
+      type: UPDATE_ALL_TOKENS_IN_PYLADES,
       payload: {
         allTokens,
       },
@@ -182,8 +182,8 @@ export default function Provider({ children }) {
             updateChart,
             updateEthPrice,
             updateTopLps,
-            updateAllPairsInUniswap,
-            updateAllTokensInUniswap,
+            updateAllPairsInPylades,
+            updateAllTokensInPylades,
           },
         ],
         [
@@ -193,8 +193,8 @@ export default function Provider({ children }) {
           updateTopLps,
           updateChart,
           updateEthPrice,
-          updateAllPairsInUniswap,
-          updateAllTokensInUniswap,
+          updateAllPairsInPylades,
+          updateAllTokensInPylades,
         ]
       )}
     >
@@ -237,32 +237,32 @@ async function getGlobalData(ethPrice, oldEthPrice) {
       query: GLOBAL_DATA(),
       fetchPolicy: 'cache-first',
     })
-    data = result.data.uniswapFactories[0]
+    data = result.data.pyladesFactories[0]
 
     // fetch the historical data
     let oneDayResult = await client.query({
       query: GLOBAL_DATA(oneDayBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    oneDayData = oneDayResult.data.uniswapFactories[0]
+    oneDayData = oneDayResult.data.pyladesFactories[0]
 
     let twoDayResult = await client.query({
       query: GLOBAL_DATA(twoDayBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    twoDayData = twoDayResult.data.uniswapFactories[0]
+    twoDayData = twoDayResult.data.pyladesFactories[0]
 
     let oneWeekResult = await client.query({
       query: GLOBAL_DATA(oneWeekBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    const oneWeekData = oneWeekResult.data.uniswapFactories[0]
+    const oneWeekData = oneWeekResult.data.pyladesFactories[0]
 
     let twoWeekResult = await client.query({
       query: GLOBAL_DATA(twoWeekBlock?.number),
       fetchPolicy: 'cache-first',
     })
-    const twoWeekData = twoWeekResult.data.uniswapFactories[0]
+    const twoWeekData = twoWeekResult.data.pyladesFactories[0]
 
     if (data && oneDayData && twoDayData && twoWeekData) {
       let [oneDayVolumeUSD, volumeChangeUSD] = get2DayPercentChange(
@@ -329,8 +329,8 @@ const getChartData = async (oldestDateToFetch) => {
         fetchPolicy: 'cache-first',
       })
       skip += 1000
-      data = data.concat(result.data.uniswapDayDatas)
-      if (result.data.uniswapDayDatas.length < 1000) {
+      data = data.concat(result.data.pyladesDayDatas)
+      if (result.data.pyladesDayDatas.length < 1000) {
         allFound = true
       }
     }
@@ -470,9 +470,9 @@ const PAIRS_TO_FETCH = 500
 const TOKENS_TO_FETCH = 500
 
 /**
- * Loop through every pair on uniswap, used for search
+ * Loop through every pair on pylades, used for search
  */
-async function getAllPairsOnUniswap() {
+async function getAllPairsOnPylades() {
   try {
     let allFound = false
     let pairs = []
@@ -498,9 +498,9 @@ async function getAllPairsOnUniswap() {
 }
 
 /**
- * Loop through every token on uniswap, used for search
+ * Loop through every token on pylades, used for search
  */
-async function getAllTokensOnUniswap() {
+async function getAllTokensOnPylades() {
   try {
     let allFound = false
     let skipCount = 0
@@ -529,7 +529,7 @@ async function getAllTokensOnUniswap() {
  * Hook that fetches overview data, plus all tokens and pairs for search
  */
 export function useGlobalData() {
-  const [state, { update, updateAllPairsInUniswap, updateAllTokensInUniswap }] = useGlobalDataContext()
+  const [state, { update, updateAllPairsInPylades, updateAllTokensInPylades }] = useGlobalDataContext()
   const [ethPrice, oldEthPrice] = useEthPrice()
 
   const data = state?.globalData
@@ -539,16 +539,16 @@ export function useGlobalData() {
       let globalData = await getGlobalData(ethPrice, oldEthPrice)
       globalData && update(globalData)
 
-      let allPairs = await getAllPairsOnUniswap()
-      updateAllPairsInUniswap(allPairs)
+      let allPairs = await getAllPairsOnPylades()
+      updateAllPairsInPylades(allPairs)
 
-      let allTokens = await getAllTokensOnUniswap()
-      updateAllTokensInUniswap(allTokens)
+      let allTokens = await getAllTokensOnPylades()
+      updateAllTokensInPylades(allTokens)
     }
     if (!data && ethPrice && oldEthPrice) {
       fetchData()
     }
-  }, [ethPrice, oldEthPrice, update, data, updateAllPairsInUniswap, updateAllTokensInUniswap])
+  }, [ethPrice, oldEthPrice, update, data, updateAllPairsInPylades, updateAllTokensInPylades])
 
   return data || {}
 }
@@ -624,14 +624,14 @@ export function useEthPrice() {
   return [ethPrice, ethPriceOld]
 }
 
-export function useAllPairsInUniswap() {
+export function useAllPairsInPylades() {
   const [state] = useGlobalDataContext()
   let allPairs = state?.allPairs
 
   return allPairs || []
 }
 
-export function useAllTokensInUniswap() {
+export function useAllTokensInPylades() {
   const [state] = useGlobalDataContext()
   let allTokens = state?.allTokens
 
